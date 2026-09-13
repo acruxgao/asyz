@@ -98,6 +98,7 @@ int lca(int a,int b) {
             a=fa[a][i];
         }
     }
+    if (a==b) return weight;
     for (int i=14;i>=0;i--) {
         if (fa[a][i]!=fa[b][i]) {
             weight=min(weight,max_w[a][i]);
