@@ -6,7 +6,7 @@ int h[10005],from[100005],to[100005],nx[100005],w[100005],et=2;
 int bcj[10005],edge[100005];
 int roots[10005];
 int th[10005],tto[20005],tnx[20005],tw[20005],tet=2;
-int fa[10005][15],max_w[10005][15];
+int fa[10005][15],max_w[10005][15],dep[10005];
 
 inline void add_edge(int u,int v,int _w) {
     to[et]=v;
@@ -62,7 +62,8 @@ inline void kruskal() {
     }
 }
 
-inline void _lcainit(int root,int father,int _w) {
+inline void _lcainit(int root,int father,int _w,int depth) {
+    dep[root]=depth;
     if (father==-1) {
         for (int i=0;i<15;i++) fa[root][i]=root,max_w[root][i]=INT_MAX;
     }else {
@@ -71,14 +72,14 @@ inline void _lcainit(int root,int father,int _w) {
         for (int i=1;i<15;i++) fa[root][i]=fa[fa[root][i-1]][i-1],max_w[root][0]=min(max_w[root][i-1],max_w[fa[root][i-1]][i-1]);
     }
     for (int i=th[root];i;i=tnx[i]) {
-        if (to[i]!=father) _lcainit(to[i],root,tw[i]);
+        if (to[i]!=father) _lcainit(to[i],root,tw[i],depth+1);
     }
 }
 
 void lcainit() {
     for (int i=1;i<=n;i++) {
         if (roots[i]) {
-            _lcainit(i);
+            _lcainit(i,1);
         }
     }
 }
